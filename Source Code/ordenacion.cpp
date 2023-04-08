@@ -13,6 +13,7 @@ Ordenacion::~Ordenacion()
     delete ui;
 }
 
+/*
 #include "ordenacion.h"
 #include "fstream"
 #include "iostream"
@@ -49,3 +50,4 @@ Ordenacion::Ordenacion()
     std::cout << "El código tardó " << duration.count() << " milisegundos en ejecutarse." << std::endl;
 }
 
+*/
