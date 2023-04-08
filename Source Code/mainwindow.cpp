@@ -14,16 +14,13 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
-
 void MainWindow::on_pB_Ordenacion_clicked()
 {
     ord = new Ordenacion(this);
     ord->show();
 }
 
-
-void MainWindow::on_pushButton_2_clicked()
+void MainWindow::on_pB_FiltroNegativo_clicked()
 {
     filtroNeg = new FiltroNegativo();
     filtroNeg->show();

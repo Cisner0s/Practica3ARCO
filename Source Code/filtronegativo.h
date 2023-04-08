@@ -39,7 +39,9 @@ private slots:
 
 private:
     Ui::FiltroNegativo *ui;
-    QString directory;
+    QString originDirectory;
+    QString destinyDirectory;
+    double mediaTiempos;
   //  QVector<QString> filenames;
 };
 
