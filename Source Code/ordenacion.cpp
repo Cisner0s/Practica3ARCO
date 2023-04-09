@@ -1,6 +1,16 @@
 #include "ordenacion.h"
 #include "ui_ordenacion.h"
 
+#include <QFileDialog>
+#include <QFile>
+#include <QIODevice>
+#include <QTextStream>
+#include <QList>
+#include <QFileInfo>
+#include <QDebug>
+
+using namespace std;
+
 Ordenacion::Ordenacion(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Ordenacion)
@@ -13,41 +23,111 @@ Ordenacion::~Ordenacion()
     delete ui;
 }
 
-/*
-#include "ordenacion.h"
-#include "fstream"
-#include "iostream"
-#include "vector"
-#include "algorithm"
-#include "chrono"
-using namespace std;
-
-Ordenacion::Ordenacion()
+void Ordenacion::on_ejecutar_button_clicked()
 {
+    int n = 5;
+    double media;
 
-    std::ifstream inputFile("numerosNoOrdenados.txt");
-    std::ifstream outputFile("numerosOrdenados.txt");
+    for(int i = 0 ; i < n; i++){
+
+
+    // Concatenar el nombre del archivo de salida al final de la ruta de la carpeta seleccionada
+    QString rutaArchivo = directorio + "/numeros_ordenados.txt";
+
+    // Crear el archivo de salida
+    QFile outputFile(rutaArchivo);
+    if (!outputFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qWarning() << "No se pudo crear el archivo en:" << rutaArchivo;
+    }
+
+    // Abrir el archivo de entrada
+    QFile inputFile(archivo1);
+    if (!inputFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qWarning() << "No se pudo abrir el archivo:" << archivo1;
+    }
+
     std::vector<int> numeros;
 
-    //leemos los numeros del archivo no ordenados y los almacenamos en el vector
+    // Leer los números del archivo no ordenados y almacenarlos en el vector
     int num;
-
-    while(inputFile >> num){
-        numeros.push_back(num);//push_back lo que hace es meter el num en el verctor de numeros
+    QTextStream inputStream(&inputFile);
+    while (!inputStream.atEnd()) {
+        inputStream >> num;
+        numeros.push_back(num);
     }
-    auto start = std::chrono::high_resolution_clock::now;//empieza a contar el crono para saber cuanto tarda en ejecutarse
-    std::sort(numeros.begin(), numeros.end());//la funcion en c++ sort los ordena con un puntero en el principio(begin) y otro al final (end)
-    auto end = std::chrono::high_resolution_clock::now;
 
-    for(int i = 0; i < numeros.size(); i++){//escribo los numeros ordenados en el archivo de salida
-        outputFile << numeros[i] << endl;
+    clock_t start_time = clock();
+
+    // Ordenar los números utilizando la función sort de la STL de C++
+    std::sort(numeros.begin(), numeros.end());
+
+    clock_t end_time = clock();
+
+    // Escribir los números ordenados en el archivo de salida
+    QTextStream outputStream(&outputFile);
+    for (int i = 0; i < numeros.size(); i++) {
+        outputStream << numeros[i] << "\n";
     }
 
     inputFile.close();
     outputFile.close();
 
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-    std::cout << "El código tardó " << duration.count() << " milisegundos en ejecutarse." << std::endl;
+    double duration = double(end_time - start_time) / CLOCKS_PER_SEC * 1000;
+    QString durationStr = QString::number(duration);
+
+    switch(i){
+    case 0:
+        ui->textEdit->append(durationStr);
+        media = duration;
+        break;
+    case 1:
+        ui->textEdit_2->append(durationStr);
+        media = media + duration;
+        break;
+    case 2:
+        ui->textEdit_3->append(durationStr);
+        media = media + duration;
+        break;
+    case 3:
+        ui->textEdit_4->append(durationStr);
+        media = media + duration;
+        break;
+    case 4:
+        ui->textEdit_5->append(durationStr);
+        media = media + duration;
+        media = media/5;
+        ui->textEdit_6->append(QString::number(media));
+        break;
+    }
+    }
 }
 
-*/
+
+void Ordenacion::on_reset_button_clicked()
+{
+    ui->textEdit->clear();
+    ui->textEdit_2->clear();
+    ui->textEdit_3->clear();
+    ui->textEdit_4->clear();
+    ui->textEdit_5->clear();
+    ui->textEdit_6->clear();
+}
+
+
+void Ordenacion::on_seleccionarArch_clicked()
+{
+    archivo1 = QFileDialog::getOpenFileName(
+            this,
+            "Seleccionar archivo de entrada",
+            QDir::homePath(),
+            "Archivos de texto (*.txt)"
+        );
+
+        directorio = QFileDialog::getExistingDirectory(
+            nullptr, // Puntero a la ventana padre del cuadro de diálogo
+            "Seleccionar Directorio Origen", // Cadena de texto que se muestra en la barra de título del cuadro de diálogo
+            QDir::homePath(), // Ruta inicial que se muestra en el cuadro de diálogo
+            QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks // Mostrar solo directorios y evitar la resolución de enlaces simbólicos
+        );
+}
+

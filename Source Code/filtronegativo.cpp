@@ -32,7 +32,7 @@ void FiltroNegativo::on_seleccionarCarpeta_clicked()
             originDirectory = QFileDialog::getExistingDirectory(
             nullptr, // Puntero a la ventana padre del cuadro de diálogo
             "Seleccionar Directorio Origen", // Cadena de texto que se muestra en la barra de título del cuadro de diálogo
-            QDir::currentPath(), // Ruta inicial que se muestra en el cuadro de diálogo
+            QDir::homePath(), // Ruta inicial que se muestra en el cuadro de diálogo
             QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks // Mostrar solo directorios y evitar la resolución de enlaces simbólicos
         );
 
@@ -48,7 +48,7 @@ void FiltroNegativo::on_seleccionarCarpeta_clicked()
                 destinyDirectory = QFileDialog::getExistingDirectory(
                 nullptr, // Puntero a la ventana padre del cuadro de diálogo
                 "Seleccionar Directorio Destino", // Cadena de texto que se muestra en la barra de título del cuadro de diálogo
-                QDir::currentPath(), // Ruta inicial que se muestra en el cuadro de diálogo
+                QDir::homePath(), // Ruta inicial que se muestra en el cuadro de diálogo
                 QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks // Mostrar solo directorios y evitar la resolución de enlaces simbólicos
             );
 

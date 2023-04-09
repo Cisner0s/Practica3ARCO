@@ -15,8 +15,17 @@ public:
     explicit Ordenacion(QWidget *parent = nullptr);
     ~Ordenacion();
 
+private slots:
+    void on_ejecutar_button_clicked();
+
+    void on_reset_button_clicked();
+
+    void on_seleccionarArch_clicked();
+
 private:
     Ui::Ordenacion *ui;
+    QString archivo1;
+    QString directorio;
 };
 
 #endif // ORDENACION_H
