@@ -29,36 +29,34 @@ void FiltroNegativo::on_seleccionarCarpeta_clicked()
 {
 
     // Abrir cuadro de diálogo para seleccionar el directorio de origen
-            originDirectory = QFileDialog::getExistingDirectory(
-            nullptr, // Puntero a la ventana padre del cuadro de diálogo
-            "Seleccionar Directorio Origen", // Cadena de texto que se muestra en la barra de título del cuadro de diálogo
-            QDir::homePath(), // Ruta inicial que se muestra en el cuadro de diálogo
-            QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks // Mostrar solo directorios y evitar la resolución de enlaces simbólicos
-        );
+    originDirectory = QFileDialog::getExistingDirectory(
+        nullptr, // Puntero a la ventana padre del cuadro de diálogo
+        "Seleccionar Directorio Origen", // Cadena de texto que se muestra en la barra de título del cuadro de diálogo
+        QDir::homePath(), // Ruta inicial que se muestra en el cuadro de diálogo
+        QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks // Mostrar solo directorios y evitar la resolución de enlaces simbólicos
+    );
 
-        if (originDirectory.isEmpty()) {
+    if (originDirectory.isEmpty())
+    {
+        QMessageBox::warning(this, "Warning", "No se seleccionó ningún directorio.");
+    }
 
-            QMessageBox::warning(this, "Warning", "No se seleccionó ningún directorio.");
-        }
+    ui->rutaOrigen->setText(originDirectory);
 
+    // Abrir cuadro de diálogo para seleccionar el directorio de destino
+    destinyDirectory = QFileDialog::getExistingDirectory(
+        nullptr, // Puntero a la ventana padre del cuadro de diálogo
+        "Seleccionar Directorio Destino", // Cadena de texto que se muestra en la barra de título del cuadro de diálogo
+        QDir::homePath(), // Ruta inicial que se muestra en el cuadro de diálogo
+        QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks // Mostrar solo directorios y evitar la resolución de enlaces simbólicos
+    );
 
-        ui->rutaOrigen->setText(originDirectory);
+    if (destinyDirectory.isEmpty())
+    {
+        QMessageBox::warning(this, "Warning", "No se seleccionó ningún directorio.");
+    }
 
-        // Abrir cuadro de diálogo para seleccionar el directorio de destino
-                destinyDirectory = QFileDialog::getExistingDirectory(
-                nullptr, // Puntero a la ventana padre del cuadro de diálogo
-                "Seleccionar Directorio Destino", // Cadena de texto que se muestra en la barra de título del cuadro de diálogo
-                QDir::homePath(), // Ruta inicial que se muestra en el cuadro de diálogo
-                QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks // Mostrar solo directorios y evitar la resolución de enlaces simbólicos
-            );
-
-            if (destinyDirectory.isEmpty()) {
-
-                QMessageBox::warning(this, "Warning", "No se seleccionó ningún directorio.");
-            }
-
-
-            ui->rutaDestino->setText(destinyDirectory);
+    ui->rutaDestino->setText(destinyDirectory);
 
 }
 
@@ -69,20 +67,22 @@ void FiltroNegativo::on_ejecutar_clicked()
     for(int i = 0; i < 5 ; i++ )
     {
        clock_t start_time = clock();
+
     // Obtener lista de archivos
        vector<String> filenames;
        string sourceDirectoryStr = originDirectory.toStdString();
        glob(sourceDirectoryStr + "/*.jpg", filenames);
 
-       if (filenames.empty()) {
+       if (filenames.empty())
+       {
            QMessageBox::warning(this, "Warning", "No se encontraron archivos JPG en el directorio de origen.");
-
        }
 
        // Aplicar filtro negativo y guardar imágenes en el directorio de destino
        for (const auto &filename : filenames) {
            Mat image = imread(filename);
-           if (image.empty()) {
+           if (image.empty())
+           {
                QMessageBox::warning(this, "Warning", "No se pudo leer el archivo.");
                continue;
            }
@@ -93,8 +93,8 @@ void FiltroNegativo::on_ejecutar_clicked()
            string dstFilename = destinyDirectory.toStdString() + "/" + QFileInfo(QString::fromStdString(filename)).fileName().toStdString();
 
            bool success = imwrite(dstFilename, negativeImage);
-           if (!success) {
-               cout << "No se pudo guardar la imagen en el archivo: " << dstFilename << endl;
+           if (!success)
+           {
                QMessageBox::warning(this, "Warning", "No se pudo guardar la imagen en el archivo");
                continue;
            }
@@ -104,7 +104,7 @@ void FiltroNegativo::on_ejecutar_clicked()
        double elapsed_time = double(end_time - start_time) / CLOCKS_PER_SEC * 1000;
        mediaTiempos += elapsed_time;
 
-
+       // Pintar los tiempos en los recuadros.
        switch(i)
        {
             case 0:

@@ -22,10 +22,14 @@ private slots:
 
     void on_seleccionarArch_clicked();
 
+    void on_pushButton_clicked();
+
 private:
     Ui::Ordenacion *ui;
     QString archivo1;
     QString directorio;
+    int count;
+    double media;
 };
 
 #endif // ORDENACION_H
