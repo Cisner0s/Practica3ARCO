@@ -42,7 +42,6 @@ private:
     QString originDirectory;
     QString destinyDirectory;
     double mediaTiempos;
-  //  QVector<QString> filenames;
 };
 
 #endif // FILTRONEGATIVO_H

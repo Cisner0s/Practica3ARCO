@@ -101,7 +101,7 @@ void FiltroNegativo::on_ejecutar_clicked()
        }
 
        clock_t end_time = clock();
-       double elapsed_time = double(end_time - start_time) / CLOCKS_PER_SEC * 1000;
+       double elapsed_time = (double(end_time - start_time) / CLOCKS_PER_SEC) * 1000;
        mediaTiempos += elapsed_time;
 
        // Pintar los tiempos en los recuadros.

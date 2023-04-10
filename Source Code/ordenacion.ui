@@ -45,7 +45,7 @@
      <x>340</x>
      <y>160</y>
      <width>271</width>
-     <height>41</height>
+     <height>72</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
